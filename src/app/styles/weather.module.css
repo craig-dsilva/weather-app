@@ -1,0 +1,11 @@
+.weather {
+  margin: 3.5rem;
+}
+
+.weatherDescription {
+  display: flex;
+}
+
+.weatherDescriptionText {
+  margin-top: 1em;
+}
