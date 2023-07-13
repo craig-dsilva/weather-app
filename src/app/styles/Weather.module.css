@@ -1,0 +1,37 @@
+.weather {
+  background-color: #000000d0;
+  background: #000000d0;
+  color: #fff;
+  padding: 2em;
+  border-radius: 30px;
+  margin: 2em;
+}
+
+.weatherSearch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchBar {
+  border: none;
+  outline: none;
+  padding: 0.5em 1em;
+  border-radius: 25px;
+  background-color: #7c7c7c2b;
+  color: #fff;
+  font-family: inherit;
+  font-size: 100%;
+  width: calc(100% - 100px);
+}
+
+.searchButton {
+  margin: 0.5rem;
+  height: 45px;
+  outline: none;
+  background: #7c7c7c2b;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  border-radius: 25px;
+}
