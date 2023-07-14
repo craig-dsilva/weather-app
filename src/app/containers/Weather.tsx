@@ -7,6 +7,7 @@ const Weather = () => {
   const [lat, setLat] = useState(0);
   const [lon, setLon] = useState(0);
   const [currentWeatherData, setCurrentWeatherData] = useState();
+  const [forecastWeatherData, setForecastWeatherData] = useState();
   const [cityQueryError, setCityQueryError] = useState(false);
   const [cityQueryValidity, setCityQueryValidity] = useState(false);
 
@@ -15,14 +16,21 @@ const Weather = () => {
   const getGeoWeather = async (latitude: number, longitude: number) => {
     if (lat !== 0 && lon !== 0) {
       try {
-        const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${process.env.API_ID}`
-        );
-        if (!res.ok) {
+        const res = await Promise.all([
+          fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${process.env.API_ID}`
+          ),
+          fetch(
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&cnt=5&appid=${process.env.API_ID}`
+          ),
+        ]);
+        if (!res[0].ok || !res[1].ok) {
           throw new Error("Something went wrong");
         }
-        const data = await res.json();
-        setCurrentWeatherData(data);
+        const currentData = await res[0].json();
+        const forecastData = await res[1].json();
+        setCurrentWeatherData(currentData);
+        setForecastWeatherData(forecastData.list);
       } catch (error) {
         console.log(error);
       }
@@ -30,7 +38,7 @@ const Weather = () => {
   };
 
   const getWeatherByCity = async (city: string) => {
-    setCityQueryValidity(false)
+    setCityQueryValidity(false);
     try {
       const res = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API_ID}`
@@ -67,7 +75,7 @@ const Weather = () => {
     getWeatherByCity(`${cityQuery.current?.value}`);
     cityQuery.current.value = "";
   };
-
+  console.log(forecastWeatherData);
   return (
     <div className={styles.weather}>
       <form className={styles.weatherSearch}>
