@@ -30,11 +30,11 @@ const Weather = () => {
         }
         const currentData = await res[0].json();
         const forecastData = await res[1].json();
-        forecastData.list.shift()
+        forecastData.list.shift();
         setCurrentWeatherData(currentData);
         setForecastWeatherData(forecastData.list);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -42,20 +42,28 @@ const Weather = () => {
   const getWeatherByCity = async (city: string) => {
     setCityQueryValidity(false);
     try {
-      const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API_ID}`
-      );
-      if (res.status === 404) {
+      const res = await Promise.all([
+        fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API_ID}`
+        ),
+        fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=6&appid=${process.env.API_ID}`
+        ),
+      ]);
+
+      if (res[0].status === 404 || res[1].status === 404) {
         return setCityQueryValidity(true);
       }
-      if (!res.ok) {
+      if (!res[0].ok || !res[1].ok) {
         throw new Error("Something went wrong");
       }
-
-      const data = await res.json();
-      setCurrentWeatherData(data);
+      const currentData = await res[0].json();
+      const forecastData = await res[1].json();
+      forecastData.list.shift();
+      setCurrentWeatherData(currentData);
+      setForecastWeatherData(forecastData.list);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -77,7 +85,7 @@ const Weather = () => {
     getWeatherByCity(`${cityQuery.current?.value}`);
     cityQuery.current.value = "";
   };
-  console.log(forecastWeatherData);
+
   return (
     <div className={styles.weather}>
       <form className={styles.weatherSearch}>
