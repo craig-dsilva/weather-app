@@ -7,6 +7,8 @@ const Weather = () => {
   const [lat, setLat] = useState(0);
   const [lon, setLon] = useState(0);
   const [currentWeatherData, setCurrentWeatherData] = useState();
+  const [cityQueryError, setCityQueryError] = useState(false);
+  const [cityQueryValidity, setCityQueryValidity] = useState(false);
 
   const cityQuery = useRef<HTMLInputElement>(null);
 
@@ -28,13 +30,18 @@ const Weather = () => {
   };
 
   const getWeatherByCity = async (city: string) => {
+    setCityQueryValidity(false)
     try {
       const res = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API_ID}`
       );
+      if (res.status === 404) {
+        return setCityQueryValidity(true);
+      }
       if (!res.ok) {
         throw new Error("Something went wrong");
       }
+
       const data = await res.json();
       setCurrentWeatherData(data);
     } catch (error) {
@@ -53,6 +60,10 @@ const Weather = () => {
 
   const searchCity = (e: React.ChangeEvent<EventTarget>) => {
     e.preventDefault();
+    setCityQueryError(false);
+    if (cityQuery.current.value === "") {
+      return setCityQueryError(true);
+    }
     getWeatherByCity(`${cityQuery.current?.value}`);
     cityQuery.current.value = "";
   };
@@ -73,6 +84,8 @@ const Weather = () => {
           value="Search"
         />
       </form>
+      {cityQueryError && <p>Please enter a city</p>}
+      {cityQueryValidity && <p>Sorry, city not found</p>}
       {currentWeatherData && (
         <CurrentWeather weatherData={currentWeatherData} />
       )}
