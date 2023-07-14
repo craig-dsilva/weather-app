@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import CurrentWeather from "./CurrentWeather";
+import CurrentWeather from "../components/CurrentWeather";
 import styles from "../styles/Weather.module.css";
 
 const Weather = () => {
