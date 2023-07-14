@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import CurrentWeather from "../components/CurrentWeather";
+import ForecastWeather from "../components/ForecastWeather";
 import styles from "../styles/Weather.module.css";
 
 const Weather = () => {
@@ -21,7 +22,7 @@ const Weather = () => {
             `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${process.env.API_ID}`
           ),
           fetch(
-            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&cnt=5&appid=${process.env.API_ID}`
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&cnt=6&appid=${process.env.API_ID}`
           ),
         ]);
         if (!res[0].ok || !res[1].ok) {
@@ -29,6 +30,7 @@ const Weather = () => {
         }
         const currentData = await res[0].json();
         const forecastData = await res[1].json();
+        forecastData.list.shift()
         setCurrentWeatherData(currentData);
         setForecastWeatherData(forecastData.list);
       } catch (error) {
@@ -96,6 +98,9 @@ const Weather = () => {
       {cityQueryValidity && <p>Sorry, city not found</p>}
       {currentWeatherData && (
         <CurrentWeather weatherData={currentWeatherData} />
+      )}
+      {Array.isArray(forecastWeatherData) && (
+        <ForecastWeather weatherForecastList={forecastWeatherData} />
       )}
     </div>
   );
