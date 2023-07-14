@@ -11,7 +11,7 @@ const Weather = () => {
   const cityQuery = useRef<HTMLInputElement>(null);
 
   const getGeoWeather = async (latitude: number, longitude: number) => {
-    if (latitude !== 0) {
+    if (lat !== 0 && lon !== 0) {
       try {
         const res = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${process.env.API_ID}`
@@ -54,7 +54,7 @@ const Weather = () => {
   const searchCity = (e: React.ChangeEvent<EventTarget>) => {
     e.preventDefault();
     getWeatherByCity(`${cityQuery.current?.value}`);
-    cityQuery.current.value = ""
+    cityQuery.current.value = "";
   };
 
   return (
