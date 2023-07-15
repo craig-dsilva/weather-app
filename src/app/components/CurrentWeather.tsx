@@ -3,7 +3,7 @@ import styles from "../styles/CurentWeather.module.css";
 
 const CurrentWeather: React.FC<any> = ({ weatherData }) => {
   return (
-    <div>
+    <div className={styles.currentWeather}>
       <h2>{weatherData.name}</h2>
       <h1>{Math.round(weatherData.main.temp)}</h1>
       <p>Feels like {Math.round(weatherData.main.feels_like)}</p>

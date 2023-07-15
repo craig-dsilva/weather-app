@@ -1,3 +1,7 @@
+.currentWeather {
+  margin-bottom: 1em;
+}
+
 .weatherDescription {
   display: flex;
 }
