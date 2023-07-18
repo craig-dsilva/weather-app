@@ -79,7 +79,7 @@ const Weather = () => {
   const searchCity = (e: React.ChangeEvent<EventTarget>) => {
     e.preventDefault();
     setCityQueryError(false);
-    if (cityQuery.current.value === "") {
+    if (cityQuery.current?.value === "") {
       return setCityQueryError(true);
     }
     getWeatherByCity(`${cityQuery.current?.value}`);
