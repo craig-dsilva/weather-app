@@ -6,7 +6,7 @@ const ForecastWeather: React.FC<any> = ({ weatherForecastList }) => {
   
   return (
     <div className={styles.ForecastWeather}>
-      {weatherForecastList.map((weatherForecast, index) => {
+      {weatherForecastList.map((weatherForecast: {}, index: number) => {
         return <Forecast key={index} data={weatherForecast} />;
       })}
     </div>
