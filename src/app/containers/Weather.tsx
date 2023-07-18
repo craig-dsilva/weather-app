@@ -83,7 +83,7 @@ const Weather = () => {
       return setCityQueryError(true);
     }
     getWeatherByCity(`${cityQuery.current?.value}`);
-    cityQuery.current.value = "";
+    // cityQuery.current.value = "";
   };
 
   return (
