@@ -22,7 +22,7 @@ const Weather = () => {
             `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${process.env.API_ID}`
           ),
           fetch(
-            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&cnt=6&appid=${process.env.API_ID}`
+            `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&cnt=7&appid=${process.env.API_ID}`
           ),
         ]);
         if (!res[0].ok || !res[1].ok) {
@@ -47,7 +47,7 @@ const Weather = () => {
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API_ID}`
         ),
         fetch(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=6&appid=${process.env.API_ID}`
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&cnt=7&appid=${process.env.API_ID}`
         ),
       ]);
 
