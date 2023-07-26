@@ -1,4 +1,11 @@
 .ForecastWeather {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+}
+
+@media screen and (min-width: 600px) {
+  .ForecastWeather {
+    display: flex;
+    justify-content: space-between;
+  }
 }
